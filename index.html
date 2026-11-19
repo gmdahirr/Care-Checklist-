@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#111827">
+<title>My Skincare Routine</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fa;color:#18212b;font-family:Arial,sans-serif}
+.wrap{max-width:520px;margin:auto;padding:18px 16px 24px}
+h1{font-size:28px;margin:4px 0 16px;text-align:center}
+.card{background:white;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 2px 10px #00000012}
+h2{font-size:19px;margin:0 0 12px}
+.step{padding:10px 0;border-bottom:1px solid #e9edf2;font-size:17px;line-height:1.35}
+.step:last-child{border-bottom:0}
+.num{font-weight:700;margin-right:7px}
+.pm{padding:13px 14px;margin:9px 0;border-radius:12px;font-size:16px;line-height:1.35}
+.skin{background:#fff0df;border-left:5px solid #e58b2c}.ret{background:#eee9ff;border-left:5px solid #7956c9}.rec{background:#e9f7ee;border-left:5px solid #3f9b63}
+.day{font-weight:800;font-size:17px}.small{font-size:14px;color:#56616c;margin-top:4px}
+.warn{background:#fff8df;border-left:5px solid #e3b52b}
+.footer{font-size:13px;color:#5e6872;text-align:center;margin-top:14px}
+
+.check{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.check input{width:24px;height:24px;flex:0 0 auto;margin-top:2px;accent-color:#3f9b63}
+.check input:checked + span{text-decoration:line-through;opacity:.58}
+.pm.check{display:flex}
+.pm.check input{margin-top:1px}
+.pm.check span{flex:1}
+.progress{font-size:14px;color:#56616c;text-align:center;margin:-4px 0 12px}
+.reset{display:block;margin:12px auto 0;border:0;background:#18212b;color:white;border-radius:10px;padding:9px 14px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🧴 My Skincare Routine</h1>
+
+<div class="card">
+<h2>☀️ EVERY MORNING</h2>
+<label class="check"><input type="checkbox" data-check="am1"><span>1️⃣ <b>Cetaphil Oily Skin Cleanser</b><br>Wash gently for 20–30 seconds.</span></label>
+<label class="check"><input type="checkbox" data-check="am2"><span>2️⃣ <b>COSRX Vitamin C 23%</b><br>2–3 drops for the whole face.</span></label>
+<label class="check"><input type="checkbox" data-check="am3"><span>3️⃣ <b>The Ordinary Niacinamide 10% + Zinc 1%</b><br>2–3 drops.</span></label>
+<label class="check"><input type="checkbox" data-check="am4"><span>4️⃣ <b>Neutrogena Hydro Boost</b><br>Thin layer.</span></label>
+<label class="check"><input type="checkbox" data-check="am5"><span>5️⃣ <b>SPF 50+ ☀️</b><br>Every morning, face + neck.</span></label>
+</div>
+
+<div class="card">
+<h2>🌙 NIGHT — 7 DAY SCHEDULE</h2>
+<div class="progress" id="progress">Checklist: 0 / 12 completed today</div>
+<label class="pm skin check"><input type="checkbox" data-check="mon"><span><div class="day">MONDAY — 🟠 SKIN-A 0.05%</div>Cetaphil → <b>Skin-A 0.05%</b> → Hydro Boost</span></label>
+<label class="pm ret check"><input type="checkbox" data-check="tue"><span><div class="day">TUESDAY — 🟣 RETINOL 0.5%</div>Cetaphil → <b>The Ordinary Retinol 0.5%</b> → Hydro Boost</span></label>
+<label class="pm skin check"><input type="checkbox" data-check="wed"><span><div class="day">WEDNESDAY — 🟠 SKIN-A 0.05%</div>Cetaphil → <b>Skin-A 0.05%</b> → Hydro Boost</span></label>
+<label class="pm ret check"><input type="checkbox" data-check="thu"><span><div class="day">THURSDAY — 🟣 RETINOL 0.5%</div>Cetaphil → <b>The Ordinary Retinol 0.5%</b> → Hydro Boost</span></label>
+<label class="pm skin check"><input type="checkbox" data-check="fri"><span><div class="day">FRIDAY — 🟠 SKIN-A 0.05%</div>Cetaphil → <b>Skin-A 0.05%</b> → Hydro Boost</span></label>
+<label class="pm ret check"><input type="checkbox" data-check="sat"><span><div class="day">SATURDAY — 🟣 RETINOL 0.5%</div>Cetaphil → <b>The Ordinary Retinol 0.5%</b> → Hydro Boost</span></label>
+<label class="pm rec check"><input type="checkbox" data-check="sun"><span><div class="day">SUNDAY — 🟢 RECOVERY</div>Cetaphil → Hydro Boost</span></label>
+</div>
+
+<div class="card warn">
+<h2>⚠️ IMPORTANT</h2>
+<div class="small">• Never use Skin-A and Retinol on the same night.<br>
+• Skin-A 0.05%: pea-sized amount for the entire face.<br>
+• Retinoids: apply to completely dry skin.<br>
+• Avoid eyelids, corners of nose and corners of mouth.<br>
+• Don't use glycolic acid for now.<br>
+• SPF 50+ every morning is essential.<br>
+• If significant redness, burning or heavy peeling occurs, reduce retinoid frequency.</div>
+</div>
+<button class="reset" onclick="resetChecklist()">Reset today's checklist</button>
+<div class="footer">✓ Tap each item as you complete it. Your checks are saved on this phone and reset automatically each new day.</div>
+</div>
+<script>
+const today = new Date().toISOString().slice(0,10);
+const key = "skincare-checks-" + today;
+document.querySelectorAll("[data-check]").forEach(el => {
+  const id = el.dataset.check;
+  el.checked = JSON.parse(localStorage.getItem(key+"-"+id) || "false");
+  el.addEventListener("change", () => {
+    localStorage.setItem(key+"-"+id, JSON.stringify(el.checked));
+    updateProgress();
+  });
+});
+function updateProgress(){
+  const all = [...document.querySelectorAll("[data-check]")];
+  const done = all.filter(x=>x.checked).length;
+  document.getElementById("progress").textContent = `Checklist: ${done} / ${all.length} completed today`;
+}
+function resetChecklist(){
+  document.querySelectorAll("[data-check]").forEach(el=>{
+    el.checked=false;
+    localStorage.removeItem(key+"-"+el.dataset.check);
+  });
+  updateProgress();
+}
+updateProgress();
+</script>
+</body>
+</html>
+</div>
+</body>
+</html>
